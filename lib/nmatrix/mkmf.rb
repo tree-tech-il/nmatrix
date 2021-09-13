@@ -32,13 +32,15 @@ def find_newer_gplusplus #:nodoc:
   major_version = gplusplus_version.split(".").first.to_i
   # modern GCC has that
   return true if major_version > 4
-  return false if major_version < 0
+  return false if major_version < 4
+
   # legacy approach, check version 4:
   [9,8,7,6,5,4,3].each do |minor|
     ver = "4.#{minor}"
     gpp = "g++-#{ver}"
     result = `which #{gpp}`
     next if result.empty?
+
     CONFIG['CXX'] = gpp
     puts ver
     return CONFIG['CXX']
